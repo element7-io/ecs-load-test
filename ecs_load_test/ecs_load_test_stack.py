@@ -16,7 +16,7 @@ class EcsLoadTestStack(core.Stack):
         ecs_patterns.ApplicationLoadBalancedFargateService(self, "test-service",
             cluster=cluster,            # Required
             cpu=512,                    # Default is 256
-            desired_count=6,            # Default is 1
+            desired_count=2,            # Default is 1
             task_image_options=ecs_patterns.ApplicationLoadBalancedTaskImageOptions(
                 image=ecs.ContainerImage.from_registry("amazon/amazon-ecs-sample")),
             memory_limit_mib=2048,      # Default is 512
