@@ -1,5 +1,11 @@
 {
   "app": "python3 app.py",
+  "plugin": ["cdk-cross-account-plugin"],
+  "crossAccountConfig": {
+    "107164128218": {
+      "profile": "e7"
+    }
+  },
   "context": {
     "@aws-cdk/core:enableStackNameDuplicates": "true",
     "aws-cdk:enableDiffNoFail": "true",
