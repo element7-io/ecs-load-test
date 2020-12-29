@@ -13,11 +13,18 @@ class EcsLoadTestStack(core.Stack):
 
         cluster = ecs.Cluster(self, "load-test-cluser", vpc=vpc)
 
+        task_definition = ecs.FargateTaskDefinition( self, "spring-boot-td", cpu=512, memory_limit_mib=2048)
+
+        image = ecs.ContainerImage.from_registry("springio/gs-spring-boot-docker")
+        container = task_definition.add_container( "spring-boot-container", image=image)
+
+        port_mapping = ecs.PortMapping(container_port=8080, host_port=8080)
+        container.add_port_mappings(port_mapping)
+
         ecs_patterns.ApplicationLoadBalancedFargateService(self, "test-service",
-            cluster=cluster,            # Required
-            cpu=512,                    # Default is 256
-            desired_count=2,            # Default is 1
-            task_image_options=ecs_patterns.ApplicationLoadBalancedTaskImageOptions(
-                image=ecs.ContainerImage.from_registry("amazon/amazon-ecs-sample")),
-            memory_limit_mib=2048,      # Default is 512
-            public_load_balancer=True)  # Default is False
+            cluster=cluster,
+            task_definition=task_definition,
+            desired_count=2,
+            cpu=512,
+            memory_limit_mib=2048,
+            public_load_balancer=True)
