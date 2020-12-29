@@ -1,7 +1,5 @@
 
-# Welcome to your CDK Python project!
-
-This is a blank project for Python development with CDK.
+# This project is used for load testing ECS Fargate 
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
@@ -18,8 +16,7 @@ To manually create a virtualenv on MacOS and Linux:
 $ python3 -m venv .venv
 ```
 
-After the init process completes and the virtualenv is created, you can use the following
-step to activate your virtualenv.
+After the init process completes and the virtualenv is created, you can use the following step to activate your virtualenv.
 
 ```
 $ source .venv/bin/activate
@@ -47,12 +44,11 @@ To add additional dependencies, for example other CDK libraries, just add
 them to your `setup.py` file and rerun the `pip install -r requirements.txt`
 command.
 
-## Useful commands
+## Load testing with Artillery
+https://artillery.io/
 
- * `cdk ls`          list all stacks in the app
- * `cdk synth`       emits the synthesized CloudFormation template
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk docs`        open CDK documentation
+### Installation
 
-Enjoy!
+```
+$ npm install -g artillery
+```
