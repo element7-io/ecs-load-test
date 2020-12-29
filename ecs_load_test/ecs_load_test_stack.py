@@ -18,6 +18,6 @@ class EcsLoadTestStack(core.Stack):
             cpu=512,                    # Default is 256
             desired_count=6,            # Default is 1
             task_image_options=ecs_patterns.ApplicationLoadBalancedTaskImageOptions(
-                image=ecs.ContainerImage.from_registry("amazon/amazon-ecs-sample")),
+                image=ecs.ContainerImage.from_registry("springio/gs-spring-boot-docker")),
             memory_limit_mib=2048,      # Default is 512
             public_load_balancer=True)  # Default is False
