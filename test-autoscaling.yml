@@ -1,0 +1,26 @@
+config:
+  target: "http://ecs-l-tests-1IBKZY7HSCSMT-1646081927.eu-west-1.elb.amazonaws.com"
+  phases:
+    - duration: 60
+      arrivalRate: 10
+      rampTo: 200
+      name: "Warm up the application"
+    - duration: 60
+      arrivalRate: 200
+      name: "Sustained max load"
+scenarios:
+  - flow:
+    - get:
+        url: "/"
+#   - flow:
+#     - get:
+#         url: "/live/5c7e846fef2dff0006da208e?statistics=true"
+#   - flow:
+#     - get:
+#         url: "/live/5c7e84beef2dff0006da208f?statistics=true"
+#   - flow:
+#     - get:
+#         url: "/live/5c7e84e8ef2dff0006da2090"
+#   - flow:
+#     - get:
+#         url: "/live/5c7e8505ef2dff0006da2092?statistics=true"
