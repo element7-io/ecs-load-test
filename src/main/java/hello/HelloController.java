@@ -19,10 +19,10 @@ public class HelloController {
   }
 
   @RequestMapping("/slow")
-  public String health() {
+  public String slow() {
     Random random = new Random();
-     try {
--        Thread.sleep(1000 * random.nextInt(11));
+    try {
+        Thread.sleep(1000 * random.nextInt(11));
     } catch (InterruptedException e) {
         e.printStackTrace();
     }

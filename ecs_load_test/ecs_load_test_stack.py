@@ -18,17 +18,21 @@ class EcsLoadTestStack(core.Stack):
 
         task_definition = ecs.FargateTaskDefinition( self, "spring-boot-td", cpu=512, memory_limit_mib=2048)
 
-        # image = ecs.ContainerImage.from_registry("springio/gs-spring-boot-docker")
-        image = ecs.ContainerImage.from_ecr_repository(repository, "v6")
-        container = task_definition.add_container( "spring-boot-container", image=image)
+        image = ecs.ContainerImage.from_ecr_repository(repository, "v8")
+        container = task_definition.add_container( "spring-boot-container",
+                image=image,
+                logging=ecs.LogDrivers.aws_logs(stream_prefix="loadtest"))
 
         port_mapping = ecs.PortMapping(container_port=8080, host_port=8080)
         container.add_port_mappings(port_mapping)
 
-        ecs_patterns.ApplicationLoadBalancedFargateService(self, "test-service",
+        fargate_service = ecs_patterns.ApplicationLoadBalancedFargateService(self, "test-service",
             cluster=cluster,
             task_definition=task_definition,
             desired_count=2,
             cpu=512,
             memory_limit_mib=2048,
             public_load_balancer=True)
+
+        fargate_service.target_group.set_attribute("deregistration_delay.timeout_seconds", "10")
+
