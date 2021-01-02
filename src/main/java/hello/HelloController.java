@@ -10,18 +10,27 @@ public class HelloController {
 
   @RequestMapping("/hello")
   public String hello() {
-    Random random = new Random();
     try {
-        Thread.sleep(50 + random.nextInt(26));
+        Thread.sleep(250);
     } catch (InterruptedException e) {
         e.printStackTrace();
     }
     return "Hello world!";
   }
 
-  @RequestMapping("/health")
+  @RequestMapping("/slow")
   public String health() {
     Random random = new Random();
+     try {
+-        Thread.sleep(1000 * random.nextInt(11));
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+    return "Auch";
+  }
+
+  @RequestMapping("/health")
+  public String health() {
     try {
         Thread.sleep(75);
     } catch (InterruptedException e) {

@@ -19,7 +19,7 @@ class EcsLoadTestStack(core.Stack):
         task_definition = ecs.FargateTaskDefinition( self, "spring-boot-td", cpu=512, memory_limit_mib=2048)
 
         # image = ecs.ContainerImage.from_registry("springio/gs-spring-boot-docker")
-        image = ecs.ContainerImage.from_ecr_repository(repository, "latest")
+        image = ecs.ContainerImage.from_ecr_repository(repository, "v6")
         container = task_definition.add_container( "spring-boot-container", image=image)
 
         port_mapping = ecs.PortMapping(container_port=8080, host_port=8080)

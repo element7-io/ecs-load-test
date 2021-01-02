@@ -19,7 +19,7 @@ debug: build-docker
 	docker run -ti --rm ${PROJECT_NAME}:latest /bin/ash
 .PHONY: run
 
-docker-push:
-	docker tag ${PROJECT_NAME}:latest ${ECR_REPO_URL}:latest
-	docker push ${ECR_REPO_URL}:latest
+docker-push: build-docker
+	docker tag ${PROJECT_NAME}:latest ${ECR_REPO_URL}:v6
+	docker push ${ECR_REPO_URL}:v6
 .PHONY: docker-push
