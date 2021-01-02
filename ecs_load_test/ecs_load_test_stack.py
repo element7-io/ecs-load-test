@@ -1,5 +1,6 @@
 from aws_cdk import (
     core, aws_ec2 as ec2,
+    aws_ecr as ecr,
     aws_ecs as ecs,
     aws_ecs_patterns as ecs_patterns
 )
@@ -13,9 +14,12 @@ class EcsLoadTestStack(core.Stack):
 
         cluster = ecs.Cluster(self, "load-test-cluser", vpc=vpc)
 
+        repository = ecr.Repository(self, "spring-boot-helloworld", image_scan_on_push=True)
+
         task_definition = ecs.FargateTaskDefinition( self, "spring-boot-td", cpu=512, memory_limit_mib=2048)
 
-        image = ecs.ContainerImage.from_registry("springio/gs-spring-boot-docker")
+        # image = ecs.ContainerImage.from_registry("springio/gs-spring-boot-docker")
+        image = ecs.ContainerImage.from_ecr_repository(repository, "latest")
         container = task_definition.add_container( "spring-boot-container", image=image)
 
         port_mapping = ecs.PortMapping(container_port=8080, host_port=8080)

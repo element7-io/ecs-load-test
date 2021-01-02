@@ -1,6 +1,7 @@
 SHELL=bash
 
 PROJECT_NAME=loadtest
+ECR_REPO_URL=107164128218.dkr.ecr.eu-west-1.amazonaws.com/springboothelloworld5ef0240a-4qimqehrzasc
 
 build-gradle:
 	./gradlew build
@@ -17,3 +18,8 @@ run: build-docker
 debug: build-docker
 	docker run -ti --rm ${PROJECT_NAME}:latest /bin/ash
 .PHONY: run
+
+docker-push:
+	docker tag ${PROJECT_NAME}:latest ${ECR_REPO_URL}:latest
+	docker push ${ECR_REPO_URL}:latest
+.PHONY: docker-push

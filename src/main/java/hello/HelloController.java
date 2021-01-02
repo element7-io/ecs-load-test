@@ -18,14 +18,20 @@ public class HelloController {
     }
     return "Hello world!";
   }
+
   @RequestMapping("/health")
   public String health() {
     Random random = new Random();
     try {
-        Thread.sleep(75 + random.nextInt(26));
+        Thread.sleep(75);
     } catch (InterruptedException e) {
         e.printStackTrace();
     }
+    return "Ok";
+  }
+
+  @RequestMapping("/")
+  public String root() {
     return "Ok";
   }
 }
