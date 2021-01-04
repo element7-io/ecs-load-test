@@ -18,7 +18,7 @@ class EcsLoadTestStack(core.Stack):
 
         task_definition = ecs.FargateTaskDefinition( self, "spring-boot-td", cpu=512, memory_limit_mib=2048)
 
-        image = ecs.ContainerImage.from_ecr_repository(repository, "v8")
+        image = ecs.ContainerImage.from_ecr_repository(repository, "v9")
         container = task_definition.add_container( "spring-boot-container",
                 image=image,
                 logging=ecs.LogDrivers.aws_logs(stream_prefix="loadtest"))

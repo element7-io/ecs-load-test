@@ -24,7 +24,7 @@ public class HelloController {
     try {
         Thread.sleep(1000 * random.nextInt(11));
     } catch (InterruptedException e) {
-        e.printStackTrace();
+        System.out.println(e.getMessage());
     }
     return "Auch";
   }
