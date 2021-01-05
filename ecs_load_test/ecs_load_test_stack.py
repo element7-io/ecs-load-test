@@ -1,5 +1,7 @@
 from aws_cdk import (
-    core, aws_ec2 as ec2,
+    core,
+    aws_iam as iam,
+    aws_ec2 as ec2,
     aws_ecr as ecr,
     aws_ecs as ecs,
     aws_ecs_patterns as ecs_patterns
@@ -16,9 +18,21 @@ class EcsLoadTestStack(core.Stack):
 
         repository = ecr.Repository(self, "spring-boot-helloworld", image_scan_on_push=True)
 
-        task_definition = ecs.FargateTaskDefinition( self, "spring-boot-td", cpu=512, memory_limit_mib=2048)
+        role = iam.Role(self, "ecs-allow-cw-role",
+          assumed_by=iam.ServicePrincipal("ecs-tasks.amazonaws.com"))
 
-        image = ecs.ContainerImage.from_ecr_repository(repository, "v10")
+        role.add_to_policy(iam.PolicyStatement(
+            effect=iam.Effect.ALLOW,
+            resources=['*'],
+            actions=["cloudwatch:*"]
+        ))
+
+        task_definition = ecs.FargateTaskDefinition( self, "spring-boot-td",
+                task_role=role,
+                cpu=512,
+                memory_limit_mib=2048)
+
+        image = ecs.ContainerImage.from_ecr_repository(repository, "v12")
         container = task_definition.add_container( "spring-boot-container",
                 image=image,
                 logging=ecs.LogDrivers.aws_logs(stream_prefix="loadtest"))
