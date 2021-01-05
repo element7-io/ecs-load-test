@@ -20,6 +20,6 @@ debug: build-docker
 .PHONY: run
 
 docker-push: build-docker
-	docker tag ${PROJECT_NAME}:latest ${ECR_REPO_URL}:v16
-	docker push ${ECR_REPO_URL}:v16
+	docker tag ${PROJECT_NAME}:latest ${ECR_REPO_URL}:v19
+	docker push ${ECR_REPO_URL}:v19
 .PHONY: docker-push
