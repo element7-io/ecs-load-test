@@ -32,7 +32,7 @@ class EcsLoadTestStack(core.Stack):
                 cpu=512,
                 memory_limit_mib=2048)
 
-        image = ecs.ContainerImage.from_ecr_repository(repository, "v19")
+        image = ecs.ContainerImage.from_ecr_repository(repository, "v24")
         container = task_definition.add_container( "spring-boot-container",
                 image=image,
                 logging=ecs.LogDrivers.aws_logs(stream_prefix="loadtest"))

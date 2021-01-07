@@ -4,9 +4,12 @@ import java.lang.Thread;
 import java.util.Random;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Gauge;
+import org.springframework.http.HttpStatus;
 
 
 @RestController
@@ -16,7 +19,8 @@ public class HelloController {
   private MeterRegistry repo;
 
   @RequestMapping("/hello")
-  public String hello() {
+  @ResponseBody
+  public ResponseEntity hello() {
     try {
 
         Gauge busyThreads = repo.get("tomcat.threads.busy").gauge();
@@ -29,12 +33,16 @@ public class HelloController {
         System.out.println("Busy thread count " + busyThreads.value());
         System.out.println("Max thread count " + allThreads.value());
 
-        Thread.sleep(50);
-
+        if (busyThreads.value() > 18){
+             return new ResponseEntity(HttpStatus.SERVICE_UNAVAILABLE);
+        } else {
+            Thread.sleep(50);
+             return new ResponseEntity<String>("Hello World!", HttpStatus.OK);
+        }
     } catch (InterruptedException e) {
         e.printStackTrace();
+        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    return "Hello world!";
   }
 
   @RequestMapping("/slow")
